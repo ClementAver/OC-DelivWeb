@@ -8,7 +8,7 @@
     <div class="numbers-wrapper">
       <div>
         <h3>Number of JOs</h3>
-        <span>3</span>
+        <span>{{ entries }}</span>
       </div>
       <div>
         <h3>Number of countries</h3>
@@ -24,9 +24,6 @@
       [legend]="false"
       [labels]="true"
       [doughnut]="false"
-      (select)="onSelect($event)"
-      (activate)="onActivate($event)"
-      (deactivate)="onDeactivate($event)"
     >
     </ngx-charts-pie-chart>
   </section>
