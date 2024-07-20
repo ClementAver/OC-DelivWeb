@@ -1,1 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+}
+
+// chart-pie custom style
+.ngx-charts-tooltip-content {
+  &.type-tooltip {
+    color: #fff;
+    background: #04838f !important;
+    .tooltip-caret.position-top {
+      border-top: 7px solid #04838f !important;
+    }
+  }
+
+  .tooltip-val::before {
+    content: "🏅";
+  }
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}

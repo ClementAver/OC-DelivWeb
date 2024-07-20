@@ -1,3 +1,33 @@
-<h2>Olympic games app</h2>
-<hr />
-<p>{{ (olympics$ | async)?.length }} data loaded</p>
+<!-- <p>{{ (olympics$ | async)?.length }} data loaded</p> -->
+
+<main>
+  <section>
+    <div>
+      <h2>Medals per country</h2>
+    </div>
+    <div class="numbers-wrapper">
+      <div>
+        <h3>Number of JOs</h3>
+        <span>3</span>
+      </div>
+      <div>
+        <h3>Number of countries</h3>
+        <span>5</span>
+      </div>
+    </div>
+  </section>
+  <section class="chart-wrapper">
+    <ngx-charts-pie-chart
+      [scheme]="'cool'"
+      [results]="chartData"
+      [gradient]="false"
+      [legend]="false"
+      [labels]="true"
+      [doughnut]="false"
+      (select)="onSelect($event)"
+      (activate)="onActivate($event)"
+      (deactivate)="onDeactivate($event)"
+    >
+    </ngx-charts-pie-chart>
+  </section>
+</main>

@@ -1,9 +1,13 @@
 // TODO: create here a typescript interface for an olympic country
-/*
-example of an olympic country:
-{
-    id: 1,
-    country: "Italy",
-    participations: []
+
+interface Country {
+  country: string;
+  id: number;
+  participations: {
+    athleteCount: number;
+    city: string;
+    id: number;
+    medalsCount: number;
+    year: number;
+  }[];
 }
-*/
