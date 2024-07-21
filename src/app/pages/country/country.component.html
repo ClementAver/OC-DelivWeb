@@ -1,3 +1,38 @@
 <!-- <p>{{ (olympics$ | async)?.length }} data loaded</p> -->
 
-<main>coucou</main>
+<main>
+  <section>
+    <div>
+      <h2>{{ country }}</h2>
+    </div>
+    <div class="numbers-wrapper">
+      <div>
+        <h3>Number of JOs</h3>
+        <span>{{ entries }}</span>
+      </div>
+      <div>
+        <h3>Total number medals</h3>
+        <span>{{ totalMedals }}</span>
+      </div>
+      <div>
+        <h3>Total number athletes</h3>
+        <span>{{ totalAthletes }}</span>
+      </div>
+    </div>
+  </section>
+  <section class="chart-wrapper">
+    <ngx-charts-line-chart
+      [scheme]="'cool'"
+      [legend]="false"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      [xAxis]="true"
+      [yAxis]="true"
+      [xAxisLabel]="'Medals'"
+      [yAxisLabel]="'Years'"
+      [timeline]="false"
+      [results]="chartData"
+    >
+    </ngx-charts-line-chart>
+  </section>
+</main>

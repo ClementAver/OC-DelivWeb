@@ -10,37 +10,50 @@ import { Country, pieData } from 'src/app/core/models/Olympic';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+  // The data initially fetched (as an Observable).
   public olympics$: Observable<Country[]> = of([]);
 
+  // The number of JOs
+  entries: number | null = null;
+  // The number of countries
+  countries: number | null = null;
+
   chartData: pieData[] = [];
-  view: [number, number] = [700, 400];
-  entries: number | null = 0;
 
   constructor(private olympicService: OlympicService) {}
 
   ngOnInit(): void {
     this.olympics$ = this.olympicService.getOlympics().pipe(
-      // tap((value) => console.log(value /* array */)),
+      // Dodge the initials undefined...
       map((value) => {
         return (
           value?.map((country: Country) => {
             return country;
-          }) || []
+          }) || [] // ...by returning an empty array if no data retrieved.
         );
+      }),
+      tap((value) => {
+        if (value.length > 0) console.log(value);
       })
-      // tap((value) => console.log(value /* array */))
     );
 
     this.olympics$.subscribe((data) => {
-      this.chartData = mapper(data);
-    });
-
-    this.olympics$.subscribe((data) => {
       this.entries = data[0]?.participations.length || 0;
+      this.countries = data.length;
+      this.chartData = mapper(data);
+
+      // Logger
+      if (this.chartData.length > 0) {
+        console.log('/////- formated values : -/////');
+        console.log(this.entries);
+        console.log(this.countries);
+        console.log(this.chartData);
+      }
     });
   }
 }
 
+// Pie chart formater
 function mapper(countries: Country[]) {
   return countries.map((country) => {
     return {
