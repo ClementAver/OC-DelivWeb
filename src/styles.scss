@@ -14,6 +14,9 @@
     .tooltip-caret.position-top {
       border-top: 7px solid #04838f !important;
     }
+    .tooltip-caret.position-right {
+      border-right: 7px solid #04838f !important;
+    }
   }
 
   .tooltip-val::before {
@@ -25,4 +28,82 @@ body {
   min-height: 100vh;
   display: flex;
   align-items: center;
+}
+
+.app-root {
+  width: 100%;
+}
+
+main {
+  display: flex;
+  flex-flow: row wrap;
+  margin: 0 auto;
+
+  section:first-child {
+    margin: 0 1rem;
+    width: 100%;
+    margin-bottom: 2rem;
+
+    display: flex;
+    flex-flow: row wrap;
+
+    & > div:first-child {
+      width: 100%;
+    }
+
+    h2 {
+      width: fit-content;
+      padding: 0.2rem 1rem;
+      margin: 0 auto;
+      text-align: center;
+      border-radius: 0.4rem;
+      background-color: #04838f;
+
+      color: white;
+      font-weight: 400;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+.chart-wrapper {
+  margin: 0 auto;
+  width: 90%;
+  transform: translateX(-10px);
+  max-width: 1024px;
+  min-width: 280px;
+  min-height: calc(100vh / 2);
+
+  @media screen and (max-width: 600px) {
+    &:has(.pie-chart) {
+      min-height: 300px;
+    }
+
+    max-height: 600px;
+  }
+}
+
+.numbers-wrapper {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 2rem;
+  margin: 0 auto;
+  text-align: center;
+
+  div {
+    flex-grow: 1;
+    h3 {
+      margin: 0;
+      margin-bottom: 0.4rem;
+      font-weight: 400;
+      color: gray;
+    }
+    span {
+      font-weight: 700;
+    }
+
+    border: 2px solid #04838f;
+    padding: 0.8rem 0.6rem;
+    border-radius: 0.6rem;
+  }
 }
