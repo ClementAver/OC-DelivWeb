@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { tap, map } from 'rxjs/operators';
 import { Country, pieData } from 'src/app/core/models/Olympic';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,7 @@ export class HomeComponent implements OnInit {
 
   chartData: pieData[] = [];
 
-  constructor(private olympicService: OlympicService) {}
+  constructor(private olympicService: OlympicService, private router: Router) {}
 
   ngOnInit(): void {
     this.olympics$ = this.olympicService.getOlympics().pipe(
@@ -50,6 +51,17 @@ export class HomeComponent implements OnInit {
         console.log(this.chartData);
       }
     });
+  }
+
+  // Used to navigate to dynamic page of a country.
+  toCountry(country: string): void {
+    this.router.navigate(['/country', country]);
+  }
+
+  // Triggers when a pie slice is clicked.
+  onSelect(event: pieData): void {
+    const countryName = event.name.toLowerCase();
+    this.toCountry(countryName);
   }
 }
 

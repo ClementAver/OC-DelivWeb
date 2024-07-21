@@ -11,13 +11,24 @@ import { Country, lineData } from 'src/app/core/models/Olympic';
   styleUrls: ['./country.component.scss'],
 })
 export class CountryComponent implements OnInit {
-  public olympics$: Observable<any> = of(null);
+  // The RxJS method, "of(...values)", creates an Observable instance that synchronously delivers each of the values provided as arguments.
+  public olympics$: Observable<Country> = of();
   country: string | null = '';
   entries: number | null = 0;
   totalMedals: number | null = 0;
   totalAthletes: number | null = 0;
 
-  chartData: any[] = [];
+  chartData: lineData = [
+    {
+      name: 'string',
+      series: [
+        {
+          name: 0,
+          value: 0,
+        },
+      ],
+    },
+  ];
 
   constructor(
     private olympicService: OlympicService,

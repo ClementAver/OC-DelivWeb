@@ -1,0 +1,14 @@
+.return {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  padding: 0.4rem 0.8rem;
+  background-color: #04838f;
+  color: white;
+  text-decoration: none;
+  border-radius: 0.4rem;
+
+  &:hover {
+    background-color: rgb(168, 56, 93);
+  }
+}

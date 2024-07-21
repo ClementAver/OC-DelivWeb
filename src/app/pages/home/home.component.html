@@ -12,7 +12,7 @@
       </div>
       <div>
         <h3>Number of countries</h3>
-        <span>5</span>
+        <span>{{ countries }}</span>
       </div>
     </div>
   </section>
@@ -24,6 +24,7 @@
       [legend]="false"
       [labels]="true"
       [doughnut]="false"
+      (select)="onSelect($event)"
     >
     </ngx-charts-pie-chart>
   </section>

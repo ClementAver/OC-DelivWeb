@@ -35,12 +35,15 @@ body {
 }
 
 main {
+  position: relative;
   display: flex;
   flex-flow: row wrap;
   margin: 0 auto;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 1rem;
 
   section:first-child {
-    margin: 0 1rem;
     width: 100%;
     margin-bottom: 2rem;
 
