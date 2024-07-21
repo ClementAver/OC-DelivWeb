@@ -14,6 +14,7 @@ export class CountryComponent implements OnInit {
   // The RxJS method, "of(...values)", creates an Observable instance that synchronously delivers each of the values provided as arguments.
   public olympics$: Observable<Country> = of();
   country: string | null = '';
+  countryH2: string = '';
   entries: number | null = 0;
   totalMedals: number | null = 0;
   totalAthletes: number | null = 0;
@@ -68,6 +69,9 @@ export class CountryComponent implements OnInit {
           0
         );
 
+        if (this.country)
+          this.countryH2 =
+            this.country.charAt(0).toUpperCase() + this.country.slice(1);
         this.entries = data.participations.length;
         this.totalMedals = totalMedals;
         this.totalAthletes = totalAthletes;
