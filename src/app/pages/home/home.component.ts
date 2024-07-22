@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
-import { tap, map } from 'rxjs/operators';
 import { Country, pieData } from 'src/app/core/models/Olympic';
 import { Router } from '@angular/router';
 
@@ -21,39 +20,33 @@ export class HomeComponent implements OnInit {
 
   chartData: pieData[] = [];
 
+  // will be displayed if something goes wrong fetching data.
+  error: string | null = null;
+
   constructor(private olympicService: OlympicService, private router: Router) {}
 
   ngOnInit(): void {
-    this.olympics$ = this.olympicService.getOlympics().pipe(
-      // Dodge the initials undefined...
-      map((value) => {
-        return (
-          value?.map((country: Country) => {
-            return country;
-          }) || [] // ...by returning an empty array if no data retrieved.
-        );
-      }),
-      tap((value) => {
-        if (value.length > 0) console.log(value);
-      })
-    );
+    this.olympics$ = this.olympicService.loadInitialData()
 
-    this.olympics$.subscribe((data) => {
-      this.entries = data[0]?.participations.length || 0;
-      this.countries = data.length;
-      this.chartData = mapper(data);
+    this.olympics$.subscribe({
+      next: (data) => {
+        this.entries = data[0]?.participations.length || 0;
+        this.countries = data.length;
+        this.chartData = mapper(data);
 
-      // Logger
-      if (this.chartData.length > 0) {
-        console.log('/////- formated values : -/////');
-        console.log(this.entries);
-        console.log(this.countries);
-        console.log(this.chartData);
-      }
+        // Logger
+        if (this.chartData.length > 0) {
+          console.log('/////- formated values : -/////');
+          console.log(this.entries);
+          console.log(this.countries);
+          console.log(this.chartData);
+        }
+      },
+      error: (e) => this.error = e.message,
     });
   }
 
-  // Used to navigate to dynamic page of a country.
+  // Used to navigate to the dynamic page of a country.
   toCountry(country: string): void {
     this.router.navigate(['/country', country]);
   }

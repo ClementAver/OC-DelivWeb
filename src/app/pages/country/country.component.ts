@@ -19,17 +19,10 @@ export class CountryComponent implements OnInit {
   totalMedals: number | null = 0;
   totalAthletes: number | null = 0;
 
-  chartData: lineData = [
-    {
-      name: 'string',
-      series: [
-        {
-          name: 0,
-          value: 0,
-        },
-      ],
-    },
-  ];
+  chartData: lineData[] = [];
+
+  // will be displayed if something goes wrong fetching data.
+  error: string | null = null;
 
   constructor(
     private olympicService: OlympicService,
@@ -43,7 +36,7 @@ export class CountryComponent implements OnInit {
     });
 
     // Filters and assigns the right country.
-    this.olympics$ = this.olympicService.getOlympics().pipe(
+    this.olympics$ = this.olympicService.loadInitialData().pipe(
       map((value) => {
         return value?.find((country: Country) => {
           return country.country.toLowerCase() === this.country;
@@ -54,53 +47,56 @@ export class CountryComponent implements OnInit {
       })
     );
 
-    this.olympics$.subscribe((data) => {
-      if (data) {
-        let totalMedals = data.participations.reduce(
-          (count: number, participation: { medalsCount: number }) => {
-            return count + participation.medalsCount;
-          },
-          0
-        );
-        let totalAthletes = data.participations.reduce(
-          (count: number, participation: { athleteCount: number }) => {
-            return count + participation.athleteCount;
-          },
-          0
-        );
-
-        if (this.country)
-          this.countryH2 =
-            this.country.charAt(0).toUpperCase() + this.country.slice(1);
-        this.entries = data.participations.length;
-        this.totalMedals = totalMedals;
-        this.totalAthletes = totalAthletes;
-
-        // format the data for the lineChart.
-        if (this.country) {
-          this.chartData = [
-            {
-              name:
-                this.country.charAt(0).toUpperCase() + this.country.slice(1),
-              series: data.participations.map(
-                (participation: { medalsCount: number; year: number }) => {
-                  return {
-                    name: participation.year,
-                    value: participation.medalsCount,
-                  };
-                }
-              ),
+    this.olympics$.subscribe({
+      next: (data) => {
+        if (data) {
+          let totalMedals = data.participations.reduce(
+            (count: number, participation: { medalsCount: number }) => {
+              return count + participation.medalsCount;
             },
-          ];
-        }
+            0
+          );
+          let totalAthletes = data.participations.reduce(
+            (count: number, participation: { athleteCount: number }) => {
+              return count + participation.athleteCount;
+            },
+            0
+          );
 
-        // Logger
-        console.log('/////- formated values : -/////');
-        console.log(this.entries);
-        console.log(this.totalMedals);
-        console.log(this.totalAthletes);
-        console.log(this.chartData);
-      }
+          if (this.country)
+            this.countryH2 =
+              this.country.charAt(0).toUpperCase() + this.country.slice(1);
+          this.entries = data.participations.length;
+          this.totalMedals = totalMedals;
+          this.totalAthletes = totalAthletes;
+
+          // format the data for the lineChart.
+          if (this.country) {
+            this.chartData = [
+              {
+                name:
+                  this.country.charAt(0).toUpperCase() + this.country.slice(1),
+                series: data.participations.map(
+                  (participation: { medalsCount: number; year: number }) => {
+                    return {
+                      name: participation.year,
+                      value: participation.medalsCount,
+                    };
+                  }
+                ),
+              },
+            ];
+          }
+
+          // Logger
+          console.log('/////- formated values : -/////');
+          console.log(this.entries);
+          console.log(this.totalMedals);
+          console.log(this.totalAthletes);
+          console.log(this.chartData);
+        }
+      },
+      error: (e) => (this.error = e.message),
     });
   }
 }

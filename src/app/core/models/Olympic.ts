@@ -21,12 +21,10 @@ export type pieData = {
   value: number;
 };
 
-export type lineData = [
-  {
+export type lineData = {
     name: string;
     series: {
       name: number;
       value: number;
     }[];
   }
-];
