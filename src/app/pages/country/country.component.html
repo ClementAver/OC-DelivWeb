@@ -1,10 +1,14 @@
 <!-- <p>{{ (olympics$ | async)?.length }} data loaded</p> -->
 
-<div *ngIf="error" class="error-message">
+<div *ngIf="loading" class="message loading">
+  {{ loading }}
+</div>
+
+<div *ngIf="error" class="message error">
   {{ error }}
 </div>
 
-<main *ngIf="!error" class="pie">
+<main *ngIf="error === null && loading === null" class="pie">
   <section>
     <div>
       <h2>{{ countryH2 }}</h2>

@@ -17,7 +17,7 @@ export class OlympicService {
     return this.http.get<any>(this.olympicUrl).pipe(
       tap((value) => {
         // Uncomment to simulate an error fetching datas.
-        throw new HttpErrorResponse({ error: '/!\\', statusText: 'an error occurred fetching data.' });
+        // throw new HttpErrorResponse({ error: '/!\\', statusText: 'an error occurred fetching data.' });
         this.olympics$.next(value);
       }),
       catchError((error: HttpErrorResponse) => {

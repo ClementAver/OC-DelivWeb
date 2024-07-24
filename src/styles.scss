@@ -111,8 +111,14 @@ main {
   }
 }
 
-.error-message {
-  color: red;
+.message {
+  width: 100%;
+  text-align: center;
+
   font-weight: bold;
   margin: 20px;
+}
+
+.error {
+  color: red;
 }

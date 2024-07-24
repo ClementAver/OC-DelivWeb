@@ -21,8 +21,10 @@ export class CountryComponent implements OnInit {
 
   chartData: lineData[] = [];
 
-  // will be displayed if something goes wrong fetching data.
+  // Will be displayed if something goes wrong fetching data.
   error: string | null = null;
+  // While data is fetched.
+  loading: string | null = 'chargement...';
 
   constructor(
     private olympicService: OlympicService,
@@ -88,6 +90,8 @@ export class CountryComponent implements OnInit {
             ];
           }
 
+          this.loading = null;
+
           // Logger
           console.log('/////- formated values : -/////');
           console.log(this.entries);
@@ -96,7 +100,10 @@ export class CountryComponent implements OnInit {
           console.log(this.chartData);
         }
       },
-      error: (e) => (this.error = e.message),
+      error: (e) => {
+        this.loading = null;
+        this.error = e.message;
+      },
     });
   }
 }

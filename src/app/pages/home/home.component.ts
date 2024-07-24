@@ -20,19 +20,23 @@ export class HomeComponent implements OnInit {
 
   chartData: pieData[] = [];
 
-  // will be displayed if something goes wrong fetching data.
+  // Will be displayed if something goes wrong fetching data.
   error: string | null = null;
+  // While data is fetched.
+  loading: string | null = 'chargement...';
 
   constructor(private olympicService: OlympicService, private router: Router) {}
 
   ngOnInit(): void {
-    this.olympics$ = this.olympicService.loadInitialData()
+    this.olympics$ = this.olympicService.loadInitialData();
 
     this.olympics$.subscribe({
       next: (data) => {
         this.entries = data[0]?.participations.length || 0;
         this.countries = data.length;
         this.chartData = mapper(data);
+
+        this.loading = null;
 
         // Logger
         if (this.chartData.length > 0) {
@@ -42,7 +46,10 @@ export class HomeComponent implements OnInit {
           console.log(this.chartData);
         }
       },
-      error: (e) => this.error = e.message,
+      error: (e) => {
+        this.loading = null;
+        this.error = e.message;
+      },
     });
   }
 
