@@ -1,18 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, of, Subscription } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
-import { tap, map } from 'rxjs/operators';
+import { tap, map, defaultIfEmpty } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { Country, lineData } from 'src/app/core/models/Olympic';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-country',
   templateUrl: './country.component.html',
   styleUrls: ['./country.component.scss'],
 })
-export class CountryComponent implements OnInit {
+export class CountryComponent implements OnInit, OnDestroy {
   // The RxJS method, "of(...values)", creates an Observable instance that synchronously delivers each of the values provided as arguments.
-  public olympics$: Observable<Country> = of();
+  olympics$: Observable<Country | undefined> = of();
+  subscription: Subscription | null = null;
+
   country: string | null = '';
   countryH2: string = '';
   entries: number | null = 0;
@@ -25,10 +28,13 @@ export class CountryComponent implements OnInit {
   error: string | null = null;
   // While data is fetched.
   loading: string | null = 'chargement...';
+  // Redirection countdown.
+  count = 5;
 
   constructor(
     private olympicService: OlympicService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -46,10 +52,11 @@ export class CountryComponent implements OnInit {
       }),
       tap((value) => {
         if (value) console.log(value);
+        else this.toHome();
       })
     );
 
-    this.olympics$.subscribe({
+    this.subscription = this.olympics$.subscribe({
       next: (data) => {
         if (data) {
           let totalMedals = data.participations.reduce(
@@ -105,5 +112,22 @@ export class CountryComponent implements OnInit {
         this.error = e.message;
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
+  toHome() {
+    setInterval(() => {
+      this.count--;
+      this.loading = `Page non référencée, vous allez être redirigé dans ${this.count} ...`;
+    }, 1000);
+
+    setTimeout(() => {
+      this.router.navigate(['']);
+    }, 5000);
   }
 }

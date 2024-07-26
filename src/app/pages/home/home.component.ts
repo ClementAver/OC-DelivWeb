@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, of, Subscription } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Country, pieData } from 'src/app/core/models/Olympic';
 import { Router } from '@angular/router';
@@ -9,9 +9,10 @@ import { Router } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   // The data initially fetched (as an Observable).
   public olympics$: Observable<Country[]> = of([]);
+  subscription: Subscription | null = null;
 
   // The number of JOs
   entries: number | null = null;
@@ -30,7 +31,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.olympics$ = this.olympicService.loadInitialData();
 
-    this.olympics$.subscribe({
+    this.subscription = this.olympics$.subscribe({
       next: (data) => {
         this.entries = data[0]?.participations.length || 0;
         this.countries = data.length;
@@ -51,6 +52,12 @@ export class HomeComponent implements OnInit {
         this.error = e.message;
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   // Used to navigate to the dynamic page of a country.
