@@ -1,4 +1,4 @@
-import { Participation } from "./Participation";
+import { Participation } from './Participation';
 
 export interface Country {
   country: string;
@@ -16,9 +16,9 @@ export type PieData = {
 };
 
 export type LineData = {
-    name: string;
-    series: {
-      name: number;
-      value: number;
-    }[];
-  }
+  name: string;
+  series: {
+    name: number;
+    value: number;
+  }[];
+};

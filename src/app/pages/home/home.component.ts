@@ -73,7 +73,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 }
 
 // Pie chart formater
-function mapper(countries: Country[]) {
+function mapper(countries: Country[]): PieData[] {
   return countries.map((country) => {
     return {
       name: country.country,
