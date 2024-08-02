@@ -1,27 +1,21 @@
-// TODO: create here a typescript interface for an olympic country
+import { Participation } from "./Participation";
 
 export interface Country {
   country: string;
   id: number;
-  participations: {
-    athleteCount: number;
-    city: string;
-    id: number;
-    medalsCount: number;
-    year: number;
-  }[];
+  participations: Participation[];
 }
 
 export interface CountryWithMedals extends Country {
   totalMedals: number;
 }
 
-export type pieData = {
+export type PieData = {
   name: string;
   value: number;
 };
 
-export type lineData = {
+export type LineData = {
     name: string;
     series: {
       name: number;

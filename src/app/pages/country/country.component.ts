@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
-import { tap, map, defaultIfEmpty } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { Country, lineData } from 'src/app/core/models/Olympic';
+import { Country, LineData } from 'src/app/core/models/Olympic';
 import { Router } from '@angular/router';
 
 @Component({
@@ -22,7 +22,7 @@ export class CountryComponent implements OnInit, OnDestroy {
   totalMedals: number | null = 0;
   totalAthletes: number | null = 0;
 
-  chartData: lineData[] = [];
+  chartData: LineData[] = [];
 
   // Will be displayed if something goes wrong fetching data.
   error: string | null = null;

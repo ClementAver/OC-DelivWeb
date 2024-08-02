@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
-import { Country, pieData } from 'src/app/core/models/Olympic';
+import { Country, PieData } from 'src/app/core/models/Olympic';
 import { Router } from '@angular/router';
 
 @Component({
@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   // The number of countries
   countries: number | null = null;
 
-  chartData: pieData[] = [];
+  chartData: PieData[] = [];
 
   // Will be displayed if something goes wrong fetching data.
   error: string | null = null;
@@ -66,7 +66,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   // Triggers when a pie slice is clicked.
-  onSelect(event: pieData): void {
+  onSelect(event: PieData): void {
     const countryName = event.name.toLowerCase();
     this.toCountry(countryName);
   }
