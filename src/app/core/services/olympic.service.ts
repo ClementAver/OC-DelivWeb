@@ -17,7 +17,10 @@ export class OlympicService {
     return this.http.get<Country[]>(this.olympicUrl).pipe(
       tap((value) => {
         // Uncomment to simulate an error fetching datas.
-        // throw new HttpErrorResponse({ error: '/!\\', statusText: 'an error occurred fetching data.' });
+        // throw new HttpErrorResponse({
+        //   error: '/!\\',
+        //   statusText: 'an error occurred fetching data.',
+        // });
         this.olympics$.next(value);
       }),
       catchError((error: HttpErrorResponse) => {
@@ -34,7 +37,12 @@ export class OlympicService {
           );
         }
         // Return an observable with a user-facing error message.
-        return throwError(() => new Error());
+        return throwError(
+          () =>
+            new Error(
+              "Nous n'arrivons pas à récupérer les données pour l'instant, veuillez réessayer ultérieurement."
+            )
+        );
       })
     );
   }

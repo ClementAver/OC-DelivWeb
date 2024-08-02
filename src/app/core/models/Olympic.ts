@@ -6,10 +6,6 @@ export interface Country {
   participations: Participation[];
 }
 
-export interface CountryWithMedals extends Country {
-  totalMedals: number;
-}
-
 export type PieData = {
   name: string;
   value: number;
